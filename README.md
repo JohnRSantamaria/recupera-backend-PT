@@ -13,7 +13,7 @@ De esta forma iniciara el backend.
 
 ---
 
-### Rutas disponibles
+### Rutas disponibles:
 
 _(Para poder ingresar a estas rutas la aplicacion debe estar desplegada con los pasos anteriores)_
 
@@ -21,7 +21,7 @@ _(Para poder ingresar a estas rutas la aplicacion debe estar desplegada con los 
 
 El la documentacion podras ver todas las rutas disponibles para este backend como ejemplo esta es la ruta de [get](http://127.0.0.1:8000/tasks/api/v1/tasks/)
 
-La operaciones disponibles son
+La operaciones disponibles son:
 
 - GET
 - POST
