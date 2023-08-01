@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { createTasks } from '../api/tasks.api';
-import { useNavigate } from 'react-router-dom';
+import { createTasks, deleteTaks } from '../api/tasks.api';
+import { useNavigate, useParams } from 'react-router-dom';
 export function TaksFormPage() {
 	const navigate = useNavigate();
+	const params = useParams();
 	const {
 		register,
 		handleSubmit,
@@ -30,6 +31,19 @@ export function TaksFormPage() {
 				></textarea>
 				{errors.description && <span>la descripcion es requerida</span>}
 				<button>Save</button>
+				{params.id && (
+					<button
+						onClick={async () => {
+							const accepted = window.confirm('Estas seguro que quieres eliminar');
+							if (accepted) {
+								await deleteTaks(params.id);
+								navigate('/tasks');
+							}
+						}}
+					>
+						Delete
+					</button>
+				)}
 			</form>
 		</div>
 	);

@@ -19,6 +19,10 @@ function App() {
 					path='/tasks-create'
 					element={<TaksFormPage />}
 				></Route>
+				<Route
+					path='/tasks/:id'
+					element={<TaksFormPage />}
+				></Route>
 			</Routes>
 		</BrowserRouter>
 	);
