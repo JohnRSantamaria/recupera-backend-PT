@@ -1,19 +1,41 @@
 import { useForm } from 'react-hook-form';
-import { createTasks, deleteTaks } from '../api/tasks.api';
+import { createTasks, deleteTaks, getTask, updateTaks } from '../api/tasks.api';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 export function TaksFormPage() {
 	const navigate = useNavigate();
 	const params = useParams();
+
 	const {
 		register,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
+		setValue
 	} = useForm();
 
 	const onSubmit = handleSubmit(async (data) => {
-		await createTasks(data);
+		if (params.id) {
+			await updateTaks(params.id, data);
+		} else {
+			await createTasks(data);
+		}
+
 		navigate('/tasks');
 	});
+
+	useEffect(() => {
+		async function loadTask() {
+			if (params.id) {
+				const {
+					data: { title, description }
+				} = await getTask(params.id);
+				setValue('title', title);
+				setValue('description', description);
+			}
+		}
+		loadTask();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div>
