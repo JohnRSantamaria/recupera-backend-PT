@@ -62,14 +62,13 @@ export function TaksFormPage() {
 
 		if (params.id) {
 			if (dateType === 'Date Object (new Date)') {
-				data = { ...data, date: date.toISOString() };
+				data = { ...data, done, date: date.toISOString() };
 			} else if (dateType === 'ISO 8601 String') {
-				data = { ...data, date };
+				data = { ...data, done, date };
 			} else {
 				console.error('La fecha no es válida.');
 				return;
 			}
-
 			await updateTaks(params.id, data);
 			toast.success('Tarea Actualizada', {
 				position: 'top-center',
@@ -107,6 +106,8 @@ export function TaksFormPage() {
 		loadTask();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	console.log(done);
 
 	return (
 		<div className='max-w-xl mx-auto'>
