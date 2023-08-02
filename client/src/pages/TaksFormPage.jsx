@@ -107,8 +107,6 @@ export function TaksFormPage() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	console.log(done);
-
 	return (
 		<div className='max-w-xl mx-auto'>
 			<form
