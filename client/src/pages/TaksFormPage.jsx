@@ -10,7 +10,7 @@ import 'react-calendar/dist/Calendar.css';
 export function TaksFormPage() {
 	const navigate = useNavigate();
 	const params = useParams();
-	const [done, setDone] = useState();
+	const [done, setDone] = useState(false);
 	const [date, setDate] = useState(new Date());
 
 	const {
@@ -43,9 +43,32 @@ export function TaksFormPage() {
 		setDate(e);
 	};
 
+	function isISOString(value) {
+		const isoDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+		return isoDateRegex.test(value);
+	}
+	function checkDateType(date) {
+		if (date instanceof Date) {
+			return 'Date Object (new Date)';
+		} else if (isISOString(date)) {
+			return 'ISO 8601 String';
+		} else {
+			return 'Unknown';
+		}
+	}
+
 	const onSubmit = handleSubmit(async (data) => {
+		const dateType = checkDateType(date);
+
 		if (params.id) {
-			data = { ...data, date: date.toISOString() };
+			if (dateType === 'Date Object (new Date)') {
+				data = { ...data, date: date.toISOString() };
+			} else if (dateType === 'ISO 8601 String') {
+				data = { ...data, date };
+			} else {
+				console.error('La fecha no es válida.');
+				return;
+			}
 
 			await updateTaks(params.id, data);
 			toast.success('Tarea Actualizada', {
@@ -56,7 +79,7 @@ export function TaksFormPage() {
 				}
 			});
 		} else {
-			data = { ...data, date: date.toISOString() };
+			data = { ...data, date };
 			await createTasks(data);
 			toast.success('Tarea creada', {
 				position: 'top-center',
