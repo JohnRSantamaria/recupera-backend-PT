@@ -4,7 +4,7 @@
 
 ### Para iniciar el Backend :
 
-##### Estado en la ruta ../recupera-backend/server
+##### Estado en la ruta ../recupera-backend/
 
 1.  Oprimir la tecla F1
 2.  Selecionar o escribir : Python Selected Interpreter
@@ -37,3 +37,7 @@ La operaciones disponibles son:
 - DELETE
 
 ### Para iniciar el FrontEnd :
+
+##### Estado en la ruta ../recupera-backend/client
+
+- npm run dev

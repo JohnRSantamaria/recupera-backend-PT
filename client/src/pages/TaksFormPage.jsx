@@ -39,6 +39,10 @@ export function TaksFormPage() {
 		setDone(!done);
 	};
 
+	const handleChangeDate = (e) => {
+		setDate(e);
+	};
+
 	const onSubmit = handleSubmit(async (data) => {
 		if (params.id) {
 			data = { ...data, date: date.toISOString() };
@@ -122,7 +126,7 @@ export function TaksFormPage() {
 				<div className='flex flex-col justify-center items-center mb-2 py-8'>
 					<h2 className='font-semibold'>¿En Que dia debera ser completada?</h2>
 					<Calendar
-						onChange={setDate}
+						onChange={handleChangeDate}
 						value={date}
 					/>
 				</div>
