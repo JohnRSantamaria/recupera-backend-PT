@@ -3,10 +3,15 @@ import { createTasks, deleteTaks, getTask, updateTaks } from '../api/tasks.api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
 export function TaksFormPage() {
 	const navigate = useNavigate();
 	const params = useParams();
 	const [done, setDone] = useState();
+	const [date, setDate] = useState(new Date());
 
 	const {
 		register,
@@ -33,8 +38,11 @@ export function TaksFormPage() {
 	const handleDoneCheck = async () => {
 		setDone(!done);
 	};
+
 	const onSubmit = handleSubmit(async (data) => {
 		if (params.id) {
+			data = { ...data, date: date.toISOString() };
+
 			await updateTaks(params.id, data);
 			toast.success('Tarea Actualizada', {
 				position: 'top-center',
@@ -44,6 +52,7 @@ export function TaksFormPage() {
 				}
 			});
 		} else {
+			data = { ...data, date: date.toISOString() };
 			await createTasks(data);
 			toast.success('Tarea creada', {
 				position: 'top-center',
@@ -60,11 +69,12 @@ export function TaksFormPage() {
 		async function loadTask() {
 			if (params.id) {
 				const {
-					data: { title, description, done }
+					data: { title, description, done, date }
 				} = await getTask(params.id);
 				setValue('title', title);
 				setValue('description', description);
 				setDone(done);
+				setDate(date);
 			}
 		}
 		loadTask();
@@ -73,7 +83,10 @@ export function TaksFormPage() {
 
 	return (
 		<div className='max-w-xl mx-auto'>
-			<form onSubmit={onSubmit}>
+			<form
+				onSubmit={onSubmit}
+				className='pb-8'
+			>
 				<input
 					type='text'
 					placeholder='Titulo'
@@ -106,7 +119,13 @@ export function TaksFormPage() {
 						{...register('done')}
 					/>
 				</span>
-
+				<div className='flex flex-col justify-center items-center mb-2 py-8'>
+					<h2 className='font-semibold'>¿En Que dia debera ser completada?</h2>
+					<Calendar
+						onChange={setDate}
+						value={date}
+					/>
+				</div>
 				<button
 					className='bg-sky-700 p-3 rounded-lg block w-full mt-3 text-white font-semibold'
 					type='submit'
